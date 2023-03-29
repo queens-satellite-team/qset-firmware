@@ -9,6 +9,9 @@
  */
 #include <cppmain.h>
 #include <uart_protocol.h>
+#include <i2c_protocol.h>
+#include <rf24.h>
+#include <rf24_registers.h>
 
 /*********************************************************************************
  * LOCAL VARIABLES
@@ -24,20 +27,26 @@ uint8_t tx_data[32];
 // do stuff once
 void cpp_main(){
 
-	Serial transmitter(huart2);							// transmit on huart2
-	HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1);	// receive on huart1
+	I2C 	transmitter(hi2c2);
+	RF24	radio(hspi2);
 
-	// main loop, do stuff repeatedly
+	uint8_t desired_reg = (uint8_t) CONFIG;
+	uint8_t config_data = (uint8_t) 0x0A;
+
+	radio.write_reg(desired_reg, config_data);
+	radio.read_reg(desired_reg);
+
+
 	while(1){
+		transmitter.print_string("sending to obc: ");
+		transmitter.print_uint8(10);
+		transmitter.print_string("\r\n");
 
-		if (uart1_rx_flag == 1){
-			uart1_rx_flag = 0;
-			transmitter.print_string("received from obc: ");
-			transmitter.print_string((char*)uart1_rx_buffer);
-			transmitter.print_string("\r\n");
-		}
-
-		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-		HAL_Delay(250);
+		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_0);
+		HAL_Delay(200);
+		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_1);
+		HAL_Delay(1000);
+		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_2);
+		HAL_Delay(200);
 	}
 }
