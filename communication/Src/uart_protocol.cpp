@@ -4,7 +4,7 @@
  * @date	2022-02-03
  */
 
-#include <cppmain.h>
+#include <mocsat_main.h>
 #include <uart_protocol.h>
 #include "string.h"
 
