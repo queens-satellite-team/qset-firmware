@@ -4,30 +4,30 @@
  * @date	2022-03-29
  */
 
-#include <cppmain.h>
+#include <mocsat_main.h>
 #include <i2c_protocol.h>
 #include "string.h"
 
 /****************************************************************************************************/
-uint16_t i2c2_rxidx = 0;
-uint8_t i2c2_rx_flag = 0;
-uint8_t i2c2_rx_buffer[max_rx_buffer_size] = {0};
-uint8_t i2c2_rx_byte = 0;
+uint16_t i2c1_rxidx = 0;
+uint8_t i2c1_rx_flag = 0;
+uint8_t i2c1_rx_buffer[max_rx_buffer_size] = {0};
+uint8_t i2c1_rx_byte = 0;
 
 /****************************************************************************************************/
 void HAL_I2C_RxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
-	if(hi2c->Instance == I2C2){
-		if (i2c2_rx_byte == '>' || i2c2_rxidx >= max_rx_buffer_size) {
-			i2c2_rx_buffer[i2c2_rxidx] = i2c2_rx_byte;
-			i2c2_rx_flag = 1;
-			i2c2_rxidx = 0;
+	if(hi2c->Instance == I2C1){
+		if (i2c1_rx_byte == '>' || i2c1_rxidx >= max_rx_buffer_size) {
+			i2c1_rx_buffer[i2c1_rxidx] = i2c1_rx_byte;
+			i2c1_rx_flag = 1;
+			i2c1_rxidx = 0;
 		} else {
-			i2c2_rx_buffer[i2c2_rxidx] = i2c2_rx_byte;
-			i2c2_rxidx++;
+			i2c1_rx_buffer[i2c1_rxidx] = i2c1_rx_byte;
+			i2c1_rxidx++;
 
 		}
-	HAL_I2C_Slave_Receive_IT(&hi2c2, &i2c2_rx_byte, 1);
+	HAL_I2C_Slave_Receive_IT(&hi2c1, &i2c1_rx_byte, 1);
 	}
 }
 

@@ -11,11 +11,11 @@
 
 /****************************************************************************************************
  * GLOBAL CONTROLS
- * These are to be used in cppmain to handle communication from UART channels
+ * These are to be used in mocsat_main to handle communication on a i2c bus
  */
-extern uint8_t i2c2_rx_buffer[max_rx_buffer_size];
-extern uint8_t i2c2_rx_byte;
-extern uint8_t i2c2_rx_flag;
+extern uint8_t i2c1_rx_buffer[max_rx_buffer_size];
+extern uint8_t i2c1_rx_byte;
+extern uint8_t i2c1_rx_flag;
 
 /****************************************************************************************************
  * I2C CLASS
