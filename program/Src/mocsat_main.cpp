@@ -31,23 +31,24 @@ __IO uint32_t xfer_complete = 0;
 uint8_t tx_buffer[4];
 uint8_t rx_buffer[4];
 
-
 /*********************************************************************************
  * LOCAL FUNCTIONS
  */
+
+
 extern void HAL_I2C_AddrCallback(I2C_HandleTypeDef *hi2c, uint8_t TransferDirection, uint16_t AddrMatchCode)
 {
 	transfer_direction = TransferDirection;
 	if (transfer_direction != 0){
 		// start transmission process
-		if (HAL_I2C_Slave_Seq_Transmit_IT(&hi2c1, (uint8_t *)tx_buffer, TXBUFFERSIZE, I2C_FIRST_AND_LAST_FRAME) != HAL_OK){
+		if (HAL_I2C_Slave_Seq_Transmit_IT(hi2c, (uint8_t *)tx_buffer, TXBUFFERSIZE, I2C_FIRST_AND_LAST_FRAME) != HAL_OK){
 			error_handler(i2c_io_error, "seq tx bad\r\n");
 		} else {
 			error_handler(i2c_io_error, "seq tx good\r\n");
 		}
 	} else {
 		// start reception process
-		if (HAL_I2C_Slave_Seq_Receive_IT(&hi2c1, (uint8_t *)rx_buffer, TXBUFFERSIZE, I2C_FIRST_AND_LAST_FRAME) != HAL_OK){
+		if (HAL_I2C_Slave_Seq_Receive_IT(hi2c, (uint8_t *)rx_buffer, RXBUFFERSIZE, I2C_FIRST_AND_LAST_FRAME) != HAL_OK){
 			error_handler(i2c_io_error, "seq rx bad\r\n");
 		} else {
 			error_handler(i2c_io_error, "seq rx good\r\n");
@@ -82,12 +83,7 @@ extern void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
 	error_handler(i2c_io_error, "rx callback\r\n");
 	xfer_complete = 1;
-	rx_buffer[0] = 0x00;
-	rx_buffer[1] = 0x00;
-	rx_buffer[2] = 0x00;
-	rx_buffer[3] = 0x00;
 }
-
 
 // do stuff once
 void mocsat_main(){
