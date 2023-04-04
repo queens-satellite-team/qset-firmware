@@ -27,7 +27,6 @@ uint8_t tx_data[32];
 // do stuff once
 void cpp_main(){
 
-	I2C 	transmitter(hi2c2);
 	RF24	radio(hspi2);
 
 	uint8_t desired_reg = (uint8_t) CONFIG;
@@ -38,9 +37,6 @@ void cpp_main(){
 
 
 	while(1){
-		transmitter.print_string("sending to obc: ");
-		transmitter.print_uint8(10);
-		transmitter.print_string("\r\n");
 
 		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_0);
 		HAL_Delay(200);
