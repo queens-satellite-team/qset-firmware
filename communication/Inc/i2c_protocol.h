@@ -4,18 +4,19 @@
  * @date	2022-03-29
  */
 
-#ifndef COMMUNICATION_INC_I2C_PROTOCOL_H_
-#define COMMUNICATION_INC_I2C_PROTOCOL_H_
+#ifndef I2C_PROTOCOL_H_
+#define I2C_PROTOCOL_H_
 
-#define max_rx_buffer_size 128
 
 /****************************************************************************************************
  * GLOBAL CONTROLS
  * These are to be used in mocsat_main to handle communication on a i2c bus
  */
-extern uint8_t i2c1_rx_buffer[max_rx_buffer_size];
-extern uint8_t i2c1_rx_byte;
-extern uint8_t i2c1_rx_flag;
+#define		I2C_BUFFER_SIZE	4
+extern __IO uint32_t 		transfer_direction;
+extern __IO uint32_t 		xfer_complete;
+extern 		uint8_t			I2C_TX_BUFFER[I2C_BUFFER_SIZE];
+extern 		uint8_t 		I2C_RX_BUFFER[I2C_BUFFER_SIZE];
 
 /****************************************************************************************************
  * I2C CLASS
@@ -32,4 +33,4 @@ class I2C {
 		void print_uint8(uint8_t number);
 };
 
-#endif /* COMMUNICATION_INC_I2C_PROTOCOL_H_ */
+#endif /* I2C_PROTOCOL_H_ */
