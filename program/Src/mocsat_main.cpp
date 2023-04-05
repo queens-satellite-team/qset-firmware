@@ -47,6 +47,10 @@ void mocsat_main(){
 
 	while(1){
 
+		uart_debug.print_string((char*) "Start of Loop: ");
+		uart_debug.print_uint8(loop_count);
+		uart_debug.print_string((char*) "\r\n");
+
 		if (xfer_complete == 1){
 			HAL_Delay(1);
 			if(HAL_I2C_EnableListen_IT(&hi2c1) != HAL_OK){
@@ -56,18 +60,21 @@ void mocsat_main(){
 			}
 			xfer_complete = 0;
 		}
+		/****************************************************************************************************/
+		/************************************* MAIN BODY ****************************************************/
+
 
 		// print the results of the rx buffer
 		uart_debug.print_string((char*) "RX Buffer: ");
-		for (uint8_t i=0; i<I2C_BUFFER_SIZE; i++){
-			uart_debug.print_uint8(I2C_RX_BUFFER[i]);
-			uart_debug.print_string((char*) ", ");
-		}
-		uart_debug.print_string((char*) "\r\n");
+		uart_debug.print_array(I2C_RX_BUFFER);
+
+
+		/****************************************************************************************************/
 
 		// update the debug screen just so we can see some activity
-		uart_debug.print_string((char*) "Loop: ");
+		uart_debug.print_string((char*) "End of Loop: ");
 		uart_debug.print_uint8(loop_count);
+		uart_debug.print_string((char*) "\r\n");
 		uart_debug.print_string((char*) "\r\n");
 		loop_count++;
 
