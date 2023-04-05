@@ -59,7 +59,7 @@ Serial::Serial(UART_HandleTypeDef huart)
 }
 
 /****************************************************************************************************/
-void Serial::print_string( char* string)
+void Serial::print_string(char* string)
 {
 	uint8_t buf[strlen(string)];
 	strcpy((char*)buf, string);
@@ -75,3 +75,29 @@ void Serial::print_uint8(uint8_t number)
 }
 
 /****************************************************************************************************/
+void Serial::print_array(uint8_t arr[])
+{
+
+	// get length of the array
+	size_t n_elements = sizeof(arr)/sizeof(arr[0]);
+
+	if (n_elements < 1)
+	{
+		print_string((char*) "provided an empty array...\r\n");
+		return;
+	}
+
+	// if only one element don't print the comma
+	if (n_elements > 1)
+	{
+		for (uint8_t i=0; i<(n_elements-1); i++)
+		{
+			print_uint8(arr[i]);
+			print_string((char*) ", ");
+		}
+	}
+
+	print_uint8(arr[n_elements-1]);
+	print_string((char*) "\r\n");
+
+}

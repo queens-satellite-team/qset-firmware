@@ -4,9 +4,8 @@
  * @date	2022-02-03
  */
 
-#ifndef COMMUNICATION_INC_UART_PROTOCOL_H_
-#define COMMUNICATION_INC_UART_PROTOCOL_H_
-
+#ifndef UART_PROTOCOL_H_
+#define UART_PROTOCOL_H_
 
 /****************************************************************************************************
  * GLOBAL CONTROLS
@@ -27,6 +26,7 @@ class Serial {
 		Serial(UART_HandleTypeDef huart);
 		void print_string(char* string);
 		void print_uint8(uint8_t number);
+		void print_array(uint8_t arr[]);
 };
 
-#endif /* COMMUNICATION_INC_UART_PROTOCOL_H_ */
+#endif /* UART_PROTOCOL_H_ */
