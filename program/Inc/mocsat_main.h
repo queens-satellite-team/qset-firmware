@@ -4,8 +4,8 @@
  * @date	2023-02-03
  */
 
-#ifndef PROGRAM_INC_MOCSAT_MAIN_H_
-#define PROGRAM_INC_MOCSAT_MAIN_H_
+#ifndef MOCSAT_MAIN_H_
+#define MOCSAT_MAIN_H_
 
 #ifdef __cplusplus
  extern "C" {

@@ -4,8 +4,8 @@
  * @date	2023-04-01
  */
 
-#ifndef PROGRAM_INC_UTILITY_H_
-#define PROGRAM_INC_UTILITY_H_
+#ifndef UTILITY_H_
+#define UTILITY_H_
 
 #include "mocsat_main.h"
 #include "uart_protocol.h"
@@ -33,4 +33,4 @@ void error_handler(qset_error_t error_code, const char* error_message){
 	}
 }
 
-#endif /* PROGRAM_INC_UTILITY_H_ */
+#endif /* UTILITY_H_ */
