@@ -15,75 +15,15 @@
 #include <rf24_registers.h>
 
 /*********************************************************************************
- * DEFINES
- */
-#define	TXBUFFERSIZE	(COUNTOF(tx_buffer))
-#define	RXBUFFERSIZE	TXBUFFERSIZE
-
-/*********************************************************************************
  * LOCAL VARIABLES
  */
 uint8_t buffer[32];
 uint8_t loop_count = 0;
 
-__IO uint32_t transfer_direction = 0;
-__IO uint32_t xfer_complete = 0;
-uint8_t tx_buffer[4];
-uint8_t rx_buffer[4];
-
 /*********************************************************************************
  * LOCAL FUNCTIONS
  */
 
-
-extern void HAL_I2C_AddrCallback(I2C_HandleTypeDef *hi2c, uint8_t TransferDirection, uint16_t AddrMatchCode)
-{
-	transfer_direction = TransferDirection;
-	if (transfer_direction != 0){
-		// start transmission process
-		if (HAL_I2C_Slave_Seq_Transmit_IT(hi2c, (uint8_t *)tx_buffer, TXBUFFERSIZE, I2C_FIRST_AND_LAST_FRAME) != HAL_OK){
-			error_handler(i2c_io_error, "seq tx bad\r\n");
-		} else {
-			error_handler(i2c_io_error, "seq tx good\r\n");
-		}
-	} else {
-		// start reception process
-		if (HAL_I2C_Slave_Seq_Receive_IT(hi2c, (uint8_t *)rx_buffer, RXBUFFERSIZE, I2C_FIRST_AND_LAST_FRAME) != HAL_OK){
-			error_handler(i2c_io_error, "seq rx bad\r\n");
-		} else {
-			error_handler(i2c_io_error, "seq rx good\r\n");
-		}
-	}
-}
-
-extern void HAL_I2C_ListenCpltCallback(I2C_HandleTypeDef *hi2c)
-{
-	error_handler(i2c_io_error, "reached listen callback\r\n");
-
-}
-
-extern void HAL_I2C_ErrorCallback(I2C_HandleTypeDef *hi2c)
-{
-	if (HAL_I2C_GetError(hi2c) != HAL_I2C_ERROR_AF){
-		error_handler(i2c_io_error, "error callback bad\r\n");
-	}
-}
-
-extern void HAL_I2C_SlaveTxCpltCallback(I2C_HandleTypeDef *hi2c)
-{
-	error_handler(i2c_io_error, "tx callback\r\n");
-	xfer_complete = 1;
-	tx_buffer[0]++;
-	tx_buffer[1]++;
-	tx_buffer[2]++;
-	tx_buffer[3]++;
-}
-
-extern void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c)
-{
-	error_handler(i2c_io_error, "rx callback\r\n");
-	xfer_complete = 1;
-}
 
 // do stuff once
 void mocsat_main(){
@@ -92,14 +32,10 @@ void mocsat_main(){
 	Serial	uart_rpi(huart1);
 	Serial	uart_debug(huart2);
 
-
-	for (uint8_t i=0; i<RXBUFFERSIZE; i++){
-		rx_buffer[i] = 0x00;
-	}
-	tx_buffer[0] = 0xAA;
-	tx_buffer[1] = 0xBB;
-	tx_buffer[2] = 0xCC;
-	tx_buffer[3] = 0xDD;
+	I2C_TX_BUFFER[0] = 0xAA;
+	I2C_TX_BUFFER[1] = 0xBB;
+	I2C_TX_BUFFER[2] = 0xCC;
+	I2C_TX_BUFFER[3] = 0xDD;
 
 	// HAL_UART_Receive_IT(&huart1, &uart1_rx_byte, 1); 		// receive on huart1 from the pi
 
@@ -123,8 +59,8 @@ void mocsat_main(){
 
 		// print the results of the rx buffer
 		uart_debug.print_string((char*) "RX Buffer: ");
-		for (uint8_t i=0; i<RXBUFFERSIZE; i++){
-			uart_debug.print_uint8(rx_buffer[i]);
+		for (uint8_t i=0; i<I2C_BUFFER_SIZE; i++){
+			uart_debug.print_uint8(I2C_RX_BUFFER[i]);
 			uart_debug.print_string((char*) ", ");
 		}
 		uart_debug.print_string((char*) "\r\n");
