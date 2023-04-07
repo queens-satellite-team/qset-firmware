@@ -13,10 +13,10 @@
  * These are to be used in mocsat_main to handle communication on a i2c bus
  */
 #define		I2C_BUFFER_SIZE	4
-extern __IO uint32_t 		transfer_direction;
-extern __IO uint32_t 		xfer_complete;
+extern __IO uint32_t 		I2C_TRANSFER_COMPLETE;
 extern 		uint8_t			I2C_TX_BUFFER[I2C_BUFFER_SIZE];
 extern 		uint8_t 		I2C_RX_BUFFER[I2C_BUFFER_SIZE];
+extern		uint8_t			I2C_COMMAND_CODE;
 
 /****************************************************************************************************
  * I2C CLASS

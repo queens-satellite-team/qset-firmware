@@ -14,10 +14,11 @@
 /*********************************************************************************
  * LOCAL VARIABLES
  */
-__IO uint32_t transfer_direction = 0;
-__IO uint32_t xfer_complete = 0;
-uint8_t I2C_TX_BUFFER[I2C_BUFFER_SIZE] = {0};
-uint8_t I2C_RX_BUFFER[I2C_BUFFER_SIZE] = {0};
+__IO uint32_t 	transfer_direction = 0;
+__IO uint32_t 	I2C_TRANSFER_COMPLETE = 0;
+uint8_t 		I2C_TX_BUFFER[I2C_BUFFER_SIZE] = {0};
+uint8_t 		I2C_RX_BUFFER[I2C_BUFFER_SIZE] = {0};
+uint8_t			I2C_COMMAND_CODE = 0x00;
 
 /*********************************************************************************
  * HAL I2C FUNCTIONS
@@ -51,8 +52,9 @@ extern void HAL_I2C_ErrorCallback(I2C_HandleTypeDef *hi2c)
 
 extern void HAL_I2C_SlaveTxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
-	xfer_complete = 1;
-	I2C_TX_BUFFER[0]++;
+	I2C_TRANSFER_COMPLETE = 1;
+	I2C_COMMAND_CODE = I2C_TX_BUFFER[0];
+
 	I2C_TX_BUFFER[1]++;
 	I2C_TX_BUFFER[2]++;
 	I2C_TX_BUFFER[3]++;
@@ -60,7 +62,7 @@ extern void HAL_I2C_SlaveTxCpltCallback(I2C_HandleTypeDef *hi2c)
 
 extern void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
-	xfer_complete = 1;
+	I2C_TRANSFER_COMPLETE = 1;
 }
 
 /****************************************************************************************************
