@@ -51,14 +51,14 @@ void mocsat_main(){
 		uart_debug.print_uint8(loop_count);
 		uart_debug.print_string((char*) "\r\n");
 
-		if (xfer_complete == 1){
+		if (I2C_TRANSFER_COMPLETE == 1){
 			HAL_Delay(1);
 			if(HAL_I2C_EnableListen_IT(&hi2c1) != HAL_OK){
 				error_handler(i2c_io_error, "fail to loop listen\r\n");
 			} else {
 				error_handler(i2c_io_error, "success to loop listen\r\n");
 			}
-			xfer_complete = 0;
+			I2C_TRANSFER_COMPLETE = 0;
 		}
 		/****************************************************************************************************/
 		/************************************* MAIN BODY ****************************************************/
