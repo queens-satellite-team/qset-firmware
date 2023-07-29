@@ -360,15 +360,19 @@ void changeMotor(uint8_t vals){
 		 	case 0:
 		 		// 25%
 		 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 77);
+				break;
 		 	case 1:
 		 		// 50%
 		 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 128);
+				break;
 		 	case 2:
 		 		// 75%
 		 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 179);
+				break;
 		 	case 3:
 		 		// 100%
 		 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 230);
+				break;
 
 		}
 	}
